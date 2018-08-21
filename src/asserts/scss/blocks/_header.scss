@@ -1,0 +1,49 @@
+.header{
+    position: fixed;
+    height: $height_header;
+    width: 100%;
+    top: 0;
+    left: 0;
+    @include z-index(header);
+    display: flex;
+    justify-content: space-around;
+    
+    .logo{
+        &__link{
+            display: block;
+            padding: 1rem 2rem;
+        }
+    }
+
+    .menu{
+        &__wrapper{
+
+        }
+        &__list{
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        &__link{
+            display: block;
+            padding: 1rem 2rem;
+            &:hover{
+                background-color: $color_light_grey_4;
+                color: black;
+            }
+        }
+    }
+
+    .user_menu{
+        display: flex;
+        &__link{
+            display: block;
+            padding: 1rem 1rem;
+        }
+    }
+
+
+
+}
+

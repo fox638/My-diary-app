@@ -1,0 +1,84 @@
+//---------------------------------------------fonts
+$ff-main: 'helvatica-neue';
+$ff-main-bold: 'helvatica-neue-bold';
+$ff-main-light: 'helvatica-neue-light';
+$ff-steps:'georgia-bold';
+
+
+$font_path: "../fonts/";
+$font_1: $ff-main;
+$font_size_base: 1.6rem;
+
+
+//---------------------------------------------fonts###
+
+//---------------------------------------------colors
+$white: #fff;
+$black: #000;
+$red-color: #de2b24;
+$red-color-lite:#f35e59;
+$color-yellow:#f8cd53;
+$color_text_base: $black;
+$color_link_base:#4aa3df;
+$color_blue:#1287bf;
+$color_light_gray:#f0f2f4;
+$color_light_gray_2:#e2e2e2;
+$color_light_gray_3:#f3f3f3;
+$color_light_grey_4:#828282;
+$color_light_grey_5:#d8d8d8;
+$color_light_grey_6:#cecece;
+
+
+
+$color_dark_gray:#424242;
+$color_dark_gray_2:#5b5b5b;
+$color_dark_grey_3:#2a2a2a;
+$color_dark_grey_4:#515151;
+$color_blue:#1287bf;
+
+
+$body_bg: $white;
+
+//---------------------------------------------colors###
+
+//---------------------------------------------z-index
+$z-index: (
+	popap : 9999,
+	header : 100,
+	footer : 100
+);
+//---------------------------------------------z-index###
+
+//---------------------------------------------layout
+//$height_footer: 10rem;
+$height_footer: 55.5rem;
+$height_header: 5rem;
+$page_width: 96rem;
+
+//---------------------------------------------layout###
+
+//---------------------------------------------global values
+$gl_indent: 3rem;
+$gl_radius:.5rem;
+//---------------------------------------------global values###
+
+//---------------------------------------------media points
+$point_1: 1200px;
+$point_2: 1024px;
+$point_3: 768px;
+$point_4: 640px;
+$point_5: 480px;
+$point_6: 375px;
+$point_7: 320px;
+//---------------------------------------------media points
+
+//---------------------------------------------forms
+$input_height:4rem;
+$input_offset:0 2rem;
+$input_font_size:$font_size_base;
+$input_border_color:#ccc;
+$input_border_color_active:$black;
+$input_placeholder_color: $black;
+$input_text_color:$black;
+$input_radius:$gl_radius;
+//---------------------------------------------forms###

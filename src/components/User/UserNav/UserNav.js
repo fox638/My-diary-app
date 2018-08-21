@@ -12,12 +12,12 @@ class UserNav extends Component {
 
   navigationItems() {
       return (
-          <div>
-            <div>
-                <NavLink to='/auth/sign-in'>Sign in</NavLink>
+          <div className="header__user_menu user_menu">
+            <div className="user_menu__item">
+                <NavLink to='/auth/sign-in' className="user_menu__link">Sign in</NavLink>
             </div>
-            <div>
-                <NavLink to='/auth/sign-up'>Sign up</NavLink>
+            <div className="user_menu__item">
+                <NavLink to='/auth/sign-up' className="user_menu__link">Sign up</NavLink>
             </div>
             
           </div>
