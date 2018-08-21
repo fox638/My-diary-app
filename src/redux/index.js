@@ -10,15 +10,16 @@ import saga from './saga'
 
 const sagaMiddleware = createSagaMiddleware()
 
-const enhancer = applyMiddleware(
+const enhancer = composeWithDevTools(applyMiddleware(
     sagaMiddleware,
     routerMiddleware(history),
     logger
-)
+))
+
 
 const store = createStore(connectRouter(history)(reducer), enhancer)
 
-//sagaMiddleware.run(saga)
+sagaMiddleware.run(saga)
 
 
 window.store = store

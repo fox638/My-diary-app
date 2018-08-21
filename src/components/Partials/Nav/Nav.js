@@ -12,10 +12,10 @@ class Nav extends Component {
                 <NavLink to='/' className='menu__link' activeClassName='menu__link--active'>Главная</NavLink>
             </li>
             <li className='menu__item'>
-                <NavLink to='/' className='menu__link' activeClassName='menu__link--active'>Дневник</NavLink>
+                <NavLink to='/diary' className='menu__link' activeClassName='menu__link--active'>Дневник</NavLink>
             </li>
             <li className='menu__item'>
-                <NavLink to='/' className='menu__link' activeClassName='menu__link--active'>О сайте</NavLink>
+                <NavLink to='/about' className='menu__link' activeClassName='menu__link--active'>О сайте</NavLink>
             </li>
         </ul>
        </div>
