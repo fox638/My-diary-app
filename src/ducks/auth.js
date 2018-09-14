@@ -20,7 +20,9 @@ export const SIGN_IN_REQUESTS_LIMIT = `${prefix}/SIGN_IN_REQUESTS_LIMIT`
 export const SIGN_UP_REQUEST = `${prefix}/SIGN_UP_REQUEST`
 export const SIGN_UP_SUCCESS = `${prefix}/SIGN_UP_SUCCESS`
 export const SIGN_UP_ERROR = `${prefix}/SIGN_UP_ERROR`
+export const SIGN_OUT_REQUEST =  `${prefix}/SIGN_OUT_REQUEST`
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`
+export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`
 
 /**
  * Reducer
@@ -71,6 +73,12 @@ export default function reducer(state = new ReducerRecord(), action) {
       return {
           type: SIGN_UP_REQUEST,
           payload: { email, password}
+      }
+  }
+
+  export function signOut() {
+      return {
+          type: SIGN_OUT_REQUEST
       }
   }
 
@@ -126,6 +134,20 @@ export function * signInSaga() {
     })
 }
 
+export function * signOutSaga() {
+    const auth = firebase.auth()
+
+    try {
+        yield call([auth, auth.signOut])
+       
+    } catch(error) {
+        yield put({
+            type: SIGN_OUT_ERROR,
+            error
+        })
+    }
+}
+
 
  const createAuthChannel = () => 
     eventChannel((emit)=> 
@@ -155,6 +177,7 @@ export const watchStatusChangeSaga = function * () {
 export function * saga() {
     yield all([
         takeEvery(SIGN_UP_REQUEST, signUpSaga),
+        takeEvery(SIGN_OUT_REQUEST, signOutSaga),
         signInSaga(),
         watchStatusChangeSaga()
     ])
