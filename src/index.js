@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import App from './App'
 import history from './history'
 import store from './redux'
-import './asserts/scss/main_global.scss'
+//import './asserts/scss/main_global.scss'
 
 
 ReactDOM.render(

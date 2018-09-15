@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
 import {NavLink} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline' 
+import {withStyles} from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 
+const styles = theme => ({
+   navLink:{
+     textDecoration:'none'
+   }
+})
 
 class Nav extends Component {
   render() {
+    const {classes} = this.props
     return (
-      <div className="menu">
-       <div className="menu__wrapper">
-        <ul className="menu__list">
-            <li className='menu__item'>
-                <NavLink to='/' className='menu__link' activeClassName='menu__link--active'>Главная</NavLink>
-            </li>
-            <li className='menu__item'>
-                <NavLink to='/diary' className='menu__link' activeClassName='menu__link--active'>Дневник</NavLink>
-            </li>
-            <li className='menu__item'>
-                <NavLink to='/about' className='menu__link' activeClassName='menu__link--active'>О сайте</NavLink>
-            </li>
-        </ul>
-       </div>
-      </div>
+      <React.Fragment>
+          <Button>
+            <NavLink to="/" className={classes.navLink}>Главная</NavLink>
+          </Button>
+          <Button>
+            <NavLink to="/diary" className={classes.navLink}>Дневник</NavLink>
+          </Button>
+          <Button>
+            <NavLink to="/about" className={classes.navLink}>О сайте</NavLink>
+          </Button>
+          <Button color="primary" variant="outlined">
+            <NavLink to="/auth" className={classes.navLink}>Login</NavLink>
+          </Button>
+
+      </React.Fragment>
     )
   }
 }
 
 
-export default Nav
+export default withStyles(styles)(Nav) 

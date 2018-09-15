@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import './config'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 import Header from './components/Partials/Header'
 
@@ -16,6 +17,7 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
+                <CssBaseline/>
                 <Header/>
                 <div className="wrapper">
                     <div className="base">
