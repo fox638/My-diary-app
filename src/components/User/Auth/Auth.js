@@ -8,13 +8,11 @@ import {signIn, signUp} from '../../../ducks/auth'
 class Auth extends Component {
   render() {
     return (
-      <div>
-        <h1>Auth page</h1>
-
+      <React.Fragment>
         <Route path="/auth/sign-in"  render={this.signInForm}/>
         <Route path="/auth/sign-up"  render={this.signUnForm}/>
 
-      </div>
+      </React.Fragment>
     )
   }
  

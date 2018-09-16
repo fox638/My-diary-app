@@ -169,7 +169,7 @@ export const watchStatusChangeSaga = function * () {
                 type: SIGN_OUT_SUCCESS,
                 payload:{user}
             })
-            yield put(replace('/auth/sugn-in'))
+            yield put(replace('/auth/sign-in'))
         }
     }
 }

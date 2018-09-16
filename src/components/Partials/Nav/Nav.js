@@ -8,7 +8,10 @@ import Typography from '@material-ui/core/Typography'
 const styles = theme => ({
    navLink:{
      textDecoration:'none'
-   }
+   },
+   button:{
+    margin: theme.spacing.unit,
+   },
 })
 
 class Nav extends Component {
@@ -16,17 +19,20 @@ class Nav extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
-          <Button>
+          <Button className={classes.button}>
             <NavLink to="/" className={classes.navLink}>Главная</NavLink>
           </Button>
-          <Button>
+          <Button className={classes.button}>
             <NavLink to="/diary" className={classes.navLink}>Дневник</NavLink>
           </Button>
-          <Button>
+          <Button className={classes.button}>
             <NavLink to="/about" className={classes.navLink}>О сайте</NavLink>
           </Button>
-          <Button color="primary" variant="outlined">
-            <NavLink to="/auth" className={classes.navLink}>Login</NavLink>
+          <Button color="primary" variant="outlined" className={classes.button}>
+            <NavLink to="/auth/sign-in" className={classes.navLink}>Login</NavLink>
+          </Button>
+          <Button color="primary" variant="outlined" className={classes.button}>
+            <NavLink to="/auth/sign-up" className={classes.navLink}>Sign Up</NavLink>
           </Button>
 
       </React.Fragment>

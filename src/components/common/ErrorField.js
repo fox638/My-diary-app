@@ -1,15 +1,26 @@
 import React from 'react'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import Input from '@material-ui/core/Input'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
-function ErrorField(props) {
+import withStyles from '@material-ui/core/styles/withStyles'
+
+
+const styles = theme => ({
+
+})
+
+const ErrorField = (props) => {
     const {input, type, meta: {error, touched}} = props
-    const errorText = touched && error && <div style={{color: 'red'}}>{error}</div>
+    const errorText = touched && error && <FormHelperText>{error}</FormHelperText>
     return (
-        <div>
-            <label>{input.name}</label>
-            <input {...input} type={type}/>
+        <FormControl margin="normal" required fullWidth error={!!touched && !!error}>
+            <InputLabel htmlFor="email">{input.name}</InputLabel>
+            <Input {...input} type={type}></Input>
             {errorText}
-        </div>
+        </FormControl>
     )
-}
+} 
 
-export default ErrorField
+export default withStyles(styles)(ErrorField)

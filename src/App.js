@@ -19,16 +19,14 @@ class App extends Component {
             <React.Fragment>
                 <CssBaseline/>
                 <Header/>
-                <div className="wrapper">
-                    <div className="base">
+                
                         <Switch>
                             <Route path="/auth" component={Auth} />
                             <Route path="/diary" component = {Diary}/>
                             <Route path="/about" component = {About}/>
                             <Route path="/" component = {Index} />
                         </Switch>
-                    </div>
-                </div>
+                
             </React.Fragment>
         )
     }
