@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline' 
 import {withStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import {connect} from 'react-redux'
+import {moduleName, signOut} from '../../../ducks/auth'
 
 const styles = theme => ({
    navLink:{
@@ -16,7 +18,28 @@ const styles = theme => ({
 
 class Nav extends Component {
   render() {
-    const {classes} = this.props
+    const {classes, auth, signOut} = this.props
+    console.log('-----', auth)
+    const userAuthTrue = () => (<React.Fragment>
+                                <Button 
+                                  color="primary" 
+                                  variant="outlined" 
+                                  className={classes.button}
+                                  onClick={this.handleLogout}
+                                > 
+                                  Logout 
+                                </Button>
+                                </React.Fragment>)
+  const userAuthFalse = () => (<React.Fragment>
+                                <Button color="primary" variant="outlined" className={classes.button}>
+                                  <NavLink to="/auth/sign-in" className={classes.navLink}>Login</NavLink>
+                                </Button>
+                                <Button color="primary" variant="outlined" className={classes.button}>
+                                  <NavLink to="/auth/sign-up" className={classes.navLink}>Sign Up</NavLink>
+                                </Button></React.Fragment>)
+                                
+   const UserMenu = auth ? userAuthTrue : userAuthFalse
+
     return (
       <React.Fragment>
           <Button className={classes.button}>
@@ -28,17 +51,18 @@ class Nav extends Component {
           <Button className={classes.button}>
             <NavLink to="/about" className={classes.navLink}>О сайте</NavLink>
           </Button>
-          <Button color="primary" variant="outlined" className={classes.button}>
-            <NavLink to="/auth/sign-in" className={classes.navLink}>Login</NavLink>
-          </Button>
-          <Button color="primary" variant="outlined" className={classes.button}>
-            <NavLink to="/auth/sign-up" className={classes.navLink}>Sign Up</NavLink>
-          </Button>
+          <UserMenu/>
+          
 
       </React.Fragment>
     )
   }
+
+  handleLogout = () => this.props.signOut()
 }
 
 
-export default withStyles(styles)(Nav) 
+export default withStyles(styles)(
+  connect(state=>({
+    auth: !!state[moduleName].user
+  }), {signOut})(Nav)) 

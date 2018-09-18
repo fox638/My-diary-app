@@ -12,11 +12,13 @@ const styles = theme => ({
 })
 
 const ErrorField = (props) => {
-    const {input, type, meta: {error, touched}} = props
+    const {input, type, label, meta: {error, touched}} = props
     const errorText = touched && error && <FormHelperText>{error}</FormHelperText>
+    const inputLabeText = label ? label : input.name
     return (
         <FormControl margin="normal" required fullWidth error={!!touched && !!error}>
-            <InputLabel htmlFor="email">{input.name}</InputLabel>
+            
+            <InputLabel htmlFor="email">{ inputLabeText }</InputLabel>
             <Input {...input} type={type}></Input>
             {errorText}
         </FormControl>

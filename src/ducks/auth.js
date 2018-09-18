@@ -5,6 +5,7 @@ import { createSelector } from 'reselect'
 import { takeEvery, put, call, apply, take, all} from 'redux-saga/effects'
 import {eventChannel} from 'redux-saga'
 import { replace } from 'connected-react-router'
+import { toast } from 'react-toastify'
 
 
 /**
@@ -24,6 +25,7 @@ export const SIGN_OUT_REQUEST =  `${prefix}/SIGN_OUT_REQUEST`
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`
 
+
 /**
  * Reducer
  */
@@ -37,8 +39,9 @@ export default function reducer(state = new ReducerRecord(), action) {
 
     switch (type) {
         case SIGN_IN_SUCCESS:
+        case SIGN_OUT_SUCCESS:        
             return state.set('user', payload.user)
-
+        
         default:
             return state
     }
@@ -110,6 +113,14 @@ export default function reducer(state = new ReducerRecord(), action) {
      }
  }
 
+export function * signUpErrorSaga({ error }){
+    yield toast.error(error.message)
+}
+export function * signInErrorSaga({ error }){
+    yield toast.error(error.message)
+}
+
+
 export function * signInSaga() {
     for (let i = 0; i < 3; i++) {
         const { payload } = yield take(SIGN_IN_REQUEST)
@@ -121,6 +132,7 @@ export function * signInSaga() {
                 payload.email,
                 payload.password
             ])
+
         } catch (error) {
             yield put({
                 type: SIGN_IN_ERROR,
@@ -139,7 +151,9 @@ export function * signOutSaga() {
 
     try {
         yield call([auth, auth.signOut])
-       
+        yield put({
+            type: SIGN_OUT_SUCCESS
+        })
     } catch(error) {
         yield put({
             type: SIGN_OUT_ERROR,
@@ -147,6 +161,8 @@ export function * signOutSaga() {
         })
     }
 }
+
+
 
 
  const createAuthChannel = () => 
@@ -169,7 +185,7 @@ export const watchStatusChangeSaga = function * () {
                 type: SIGN_OUT_SUCCESS,
                 payload:{user}
             })
-            yield put(replace('/auth/sign-in'))
+            //yield put(replace('/auth/sign-in'))
         }
     }
 }
@@ -177,7 +193,9 @@ export const watchStatusChangeSaga = function * () {
 export function * saga() {
     yield all([
         takeEvery(SIGN_UP_REQUEST, signUpSaga),
+        takeEvery(SIGN_UP_ERROR, signUpErrorSaga),
         takeEvery(SIGN_OUT_REQUEST, signOutSaga),
+        takeEvery(SIGN_IN_ERROR, signInErrorSaga),
         signInSaga(),
         watchStatusChangeSaga()
     ])
