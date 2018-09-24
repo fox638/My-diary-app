@@ -19,7 +19,6 @@ const styles = theme => ({
 class Nav extends Component {
   render() {
     const {classes, auth, signOut} = this.props
-    console.log('-----', auth)
     const userAuthTrue = () => (<React.Fragment>
                                 <Button 
                                   color="primary" 

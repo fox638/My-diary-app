@@ -15,6 +15,10 @@ import Auth from './components/User/Auth'
 
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
+//node_modules\react-draft-wysiwyg\dist\react-draft-wysiwyg.js
+
 
 class App extends Component {
     render() {
