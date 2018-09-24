@@ -1,54 +1,48 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Paper, Typography, List, ListItem, ListItemText } from '@material-ui/core'
+import { Grid, Paper, Typography, List, ListItem, ListItemText, withStyles, Button, TextField } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
+import {addNote, loadAllNoteIndex, moduleName as notesModule, noteListSelector, loadingSelector} from '../../../ducks/notes'
+import {moduleName as authModule } from '../../../ducks/auth'
+import {Route} from 'react-router-dom'
+
+import NoteList from './NoteList'
+import Note from './Note'
 
 
-export default class Diary extends Component {
+
+const styles = theme => ({
+  paper:{
+    padding:theme.spacing.unit * 3
+  },
+  button:{
+    margin:`${theme.spacing.unit * 2}px  ${theme.spacing.unit * 2}px`,
+  }
+})
+
+class Diary extends Component {
+
   render() {
+    
     return (
-      <Grid container sm={12}>
+      <Grid container >
         <Grid item sm={3}>
-          <Paper>
-            <Typography variant="headline">
-              Сентябрь 2018
-            </Typography>
-            <List component="ul">
-              <ListItem
-                button
-                key={0}
-              >
-                <ListItemText
-                  primary="Привет дневник"
-                />
-              </ListItem>
-              <ListItem
-                button
-                key={1}
-              >
-                <ListItemText
-                  primary="Привет дневник"
-                />
-              </ListItem>
-              <ListItem
-                button
-                key={2}
-              >
-                <ListItemText
-                  primary="Привет дневник"
-                />
-              </ListItem>
-            </List>
-            <Typography variant="headline">
-              Октябрь 2018
-            </Typography>
-
-          </Paper>
+          <NoteList/>
         </Grid>
         <Grid item sm={9}>
-          <Paper>
-            
-          </Paper>
+          <Route path="/diary/:uid" component={Note}/>
+          <Route exact path="/diary" component={Note}/>
         </Grid>
       </Grid>
     )
   }
 }
+
+export default withStyles(styles)(
+  connect(state => ({
+    loading:loadingSelector(state),
+    notes:noteListSelector(state),
+    user: state[authModule].user
+  }), {addNote, loadAllNoteIndex})(Diary)
+)
