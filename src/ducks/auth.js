@@ -2,10 +2,14 @@ import firebase from 'firebase'
 import {appName} from '../config'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import { takeEvery, put, call, apply, take, all} from 'redux-saga/effects'
+import { takeEvery, put, call, apply, take, all, select} from 'redux-saga/effects'
 import {eventChannel} from 'redux-saga'
-import { replace } from 'connected-react-router'
+import { replace, push } from 'connected-react-router'
 import { toast } from 'react-toastify'
+
+import {fromPathSelect} from './router'
+
+
 
 
 /**
@@ -133,6 +137,13 @@ export function * signInSaga() {
                 payload.password
             ])
 
+            const from = yield select(fromPathSelect)
+
+           // yield put(push(from.pathname))
+           // console.log('Saga FROM', from)
+
+
+
         } catch (error) {
             yield put({
                 type: SIGN_IN_ERROR,
@@ -152,7 +163,10 @@ export function * signOutSaga() {
     try {
         yield call([auth, auth.signOut])
         yield put({
-            type: SIGN_OUT_SUCCESS
+            type: SIGN_OUT_SUCCESS,
+            payload:{
+                user:null
+            }
         })
     } catch(error) {
         yield put({
@@ -180,6 +194,11 @@ export const watchStatusChangeSaga = function * () {
                 type: SIGN_IN_SUCCESS,
                 payload: { user }
             })
+            const from = yield select(fromPathSelect)
+            console.log('location chenge !!!', from)
+            console.log('pathhame', from.from.pathname)
+            yield put(push(from.from.pathname))
+
         } else {
             yield put({
                 type: SIGN_OUT_SUCCESS,

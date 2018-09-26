@@ -7,6 +7,7 @@ import {signIn, signUp} from '../../../ducks/auth'
 
 class Auth extends Component {
   render() {
+    
     return (
       <React.Fragment>
         <Route path="/auth/sign-in"  render={this.signInForm}/>
@@ -16,8 +17,8 @@ class Auth extends Component {
     )
   }
  
-  signUnForm = () => <SignUpForm onSubmit={this.handleSignUp}/>
-  signInForm = () => <SignInForm onSubmit={this.handleSignIn}/>
+  signUnForm = () => <SignUpForm onSubmit={this.handleSignUp} />
+  signInForm = () => <SignInForm onSubmit={this.handleSignIn} />
 
   handleSignUp = ({ email, password }) => this.props.signUp(email, password)
   handleSignIn = ({ email, password }) => this.props.signIn(email, password)

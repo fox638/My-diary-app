@@ -13,6 +13,8 @@ import Diary from './components/Layouts/Diary'
 import About from './components/Layouts/About'
 import Auth from './components/User/Auth'
 
+import ProtectedRouter from './components/common/ProtectedRouter'
+
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -29,7 +31,7 @@ class App extends Component {
                 
                         <Switch>
                             <Route path="/auth" component={Auth} />
-                            <Route path="/diary" component = {Diary}/>
+                            <ProtectedRouter path="/diary" component = {Diary}/>
                             <Route path="/about" component = {About}/>
                             <Route path="/" component = {Index} />
                         </Switch>
