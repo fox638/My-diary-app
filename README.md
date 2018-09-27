@@ -1,1 +1,2 @@
-test app
+The project is in development.
+Technologies used React js, React router redux, Saga js, Ferebase DB and Store, ...
