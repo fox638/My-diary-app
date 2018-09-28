@@ -90,29 +90,6 @@ class SignInFrom extends Component {
     }
 }
 
-// class SignInFrom extends Component {
-   
-//     render() {
-//         const {classes} = this.props
-//         return (
-//             <div>
-//                 <h3 >SignIn Form</h3>
-
-//                 <form onSubmit={this.props.handleSubmit}>
-//                     <div>
-//                         email: <Field name='email' component='input'/>
-//                     </div>
-//                     <div>
-//                         password: <Field name='password' component='input' type="password" />
-
-//                     </div>
-//                     <button type="submit">Sign In</button>
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
-
 export default withStyles(styles)(reduxForm({
     form:'signin',
     validate

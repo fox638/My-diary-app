@@ -29,6 +29,9 @@ export const SIGN_OUT_REQUEST =  `${prefix}/SIGN_OUT_REQUEST`
 export const SIGN_OUT_SUCCESS = `${prefix}/SIGN_OUT_SUCCESS`
 export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`
 
+export const SEND_EMAIL_VALIDATION_REQUEST = `${prefix}/SEND_EMAIL_VALIDATION_REQUEST`
+export const SEND_EMAIL_VALIDATION_SUCCESS = `${prefix}/SEND_EMAIL_VALIDATION_SUCCESS`
+
 
 /**
  * Reducer
@@ -104,8 +107,13 @@ export default function reducer(state = new ReducerRecord(), action) {
             payload.email,
             payload.password
          )
+                
+        yield put({
+            type: SEND_EMAIL_VALIDATION_REQUEST
+        })
+        
 
-         yield put({
+        yield put({
              type:SIGN_UP_SUCCESS,
              payload:{ user }
          })
@@ -209,12 +217,29 @@ export const watchStatusChangeSaga = function * () {
     }
 }
 
+
+export const sendEmailVerificationSaga = function * () {
+    const currentUser = firebase.auth().currentUser
+    try {
+        yield call([currentUser, currentUser.sendEmailVerification])
+        yield put({
+            type:SEND_EMAIL_VALIDATION_SUCCESS
+        })
+    } catch (error){
+
+    }
+    
+
+
+}
+
 export function * saga() {
     yield all([
         takeEvery(SIGN_UP_REQUEST, signUpSaga),
         takeEvery(SIGN_UP_ERROR, signUpErrorSaga),
         takeEvery(SIGN_OUT_REQUEST, signOutSaga),
         takeEvery(SIGN_IN_ERROR, signInErrorSaga),
+        takeEvery(SEND_EMAIL_VALIDATION_REQUEST, sendEmailVerificationSaga),
         signInSaga(),
         watchStatusChangeSaga()
     ])
