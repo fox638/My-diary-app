@@ -25,6 +25,9 @@ import {
 
 import firebase from 'firebase'
 
+import { debounce } from 'lodash'
+
+
 
 const styles = theme => ({
     paper:{
@@ -36,10 +39,18 @@ const styles = theme => ({
 })
 
 class Note extends Component {
+
+    constructor(param){
+        super(param)
+        this.debounceSave = debounce(this.handleSaveNote, 5000)
+    }
+
     state = {
         editorState: EditorState.createEmpty(),
         title:''
     }
+
+    
 
     componentWillReceiveProps() {
         const {loading, note, loadNoteContent, user} = this.props
@@ -60,27 +71,28 @@ class Note extends Component {
         this.setState({
             editorState
           })
+        this.debounceSave()
+        
     }
 
     handleSaveNote = () => {
         const {user, addNote, editNote} = this.props
         const {editorState, title, uid, date, userUid } = this.state
         const content = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
-        if (!uid) return this.props.addNote({
+        if (!uid) return addNote({
             ...this.state, 
             content,
             date: Date.now(),
             userUid:user.uid
         })
         editNote({...this.state, content, userUid:user.uid})
-
-        
+       
         
      
-      }
+    }
 
       handleChange = name => event => {
-        this.setState({
+          this.setState({
           [name]:event.target.value
         })
       }

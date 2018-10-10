@@ -32,6 +32,9 @@ export const SIGN_OUT_ERROR = `${prefix}/SIGN_OUT_ERROR`
 export const SEND_EMAIL_VALIDATION_REQUEST = `${prefix}/SEND_EMAIL_VALIDATION_REQUEST`
 export const SEND_EMAIL_VALIDATION_SUCCESS = `${prefix}/SEND_EMAIL_VALIDATION_SUCCESS`
 
+export const RESET_PASSWORD_REQUEST = `${prefix}/RESET_PASSWORD_REQUEST`
+export const RESET_PASSWORD_SUCCESS = `${prefix}/RESET_PASSWORD_SUCCESS`
+
 
 /**
  * Reducer
@@ -92,6 +95,12 @@ export default function reducer(state = new ReducerRecord(), action) {
       }
   }
 
+  export function resetPassword(email) {
+      return {
+          type: RESET_PASSWORD_REQUEST,
+          payload: { email }
+      }
+  }
 
 
 /**
@@ -118,6 +127,7 @@ export default function reducer(state = new ReducerRecord(), action) {
              payload:{ user }
          })
      } catch (error) {
+         console.log(error)
          yield put({
              type: SIGN_UP_ERROR,
              error
@@ -233,6 +243,22 @@ export const sendEmailVerificationSaga = function * () {
 
 }
 
+export const resetPasswordSaga = function * ({payload}){
+    const auth = firebase.auth()
+    try {
+        yield call([auth, auth.sendPasswordResetEmail], payload.email)
+
+        put({
+            type:RESET_PASSWORD_SUCCESS
+        })
+    } catch (error) {
+        console.error(error)
+    }
+    
+
+
+}
+
 export function * saga() {
     yield all([
         takeEvery(SIGN_UP_REQUEST, signUpSaga),
@@ -240,6 +266,7 @@ export function * saga() {
         takeEvery(SIGN_OUT_REQUEST, signOutSaga),
         takeEvery(SIGN_IN_ERROR, signInErrorSaga),
         takeEvery(SEND_EMAIL_VALIDATION_REQUEST, sendEmailVerificationSaga),
+        takeEvery(RESET_PASSWORD_REQUEST, resetPasswordSaga),
         signInSaga(),
         watchStatusChangeSaga()
     ])

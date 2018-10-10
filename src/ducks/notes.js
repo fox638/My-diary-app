@@ -6,6 +6,7 @@ import {fbDatatoEntities} from './utils'
 import firebase from 'firebase'
 import {createSelector} from 'reselect'
 import {SIGN_OUT_SUCCESS} from './auth'
+import {  push } from 'connected-react-router'
 
 
 
@@ -150,6 +151,7 @@ export const addNoteSaga = function * ({payload}) {
                 uid:refIndex.key
             }
         })
+        yield put(push(`/diary/${refIndex.key}`))
        
     } catch (error) {
         yield put({
@@ -164,9 +166,6 @@ export const fetchAllSaga = function * ({payload}) {
     const noteIndexRef = firebase.database().ref(`users/${payload.uid}/noteIndex`)
     try {
         const data = yield call([noteIndexRef, noteIndexRef.once], "value")
-
-        console.log(data.val())
-      
 
         yield put({
             type:EFTCH_ALL_NOTE_SUCCESS,

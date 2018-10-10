@@ -10,6 +10,7 @@ import LockIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
+import {NavLink} from 'react-router-dom'
 
 
 const styles = theme => ({
@@ -42,6 +43,9 @@ const styles = theme => ({
    submit: {
     marginTop: theme.spacing.unit * 3,
   },
+  resetPasswordLink: {
+      paddingTop:theme.spacing.unit * 2
+  }
 })
 
 const validate = ({email, password}) => {
@@ -83,6 +87,8 @@ class SignInFrom extends Component {
                             Sign in
                         </Button>
                     </form>
+
+                    <NavLink to="/auth/pass-reset" className={classes.resetPasswordLink}>Reset Password</NavLink>
                    </Paper>
                 </div>
             </React.Fragment>
