@@ -42,7 +42,7 @@ class Note extends Component {
 
     constructor(param){
         super(param)
-        this.debounceSave = debounce(this.handleSaveNote, 5000)
+        this.debounceSave = debounce(this.handleSaveNote, 2000)
     }
 
     state = {

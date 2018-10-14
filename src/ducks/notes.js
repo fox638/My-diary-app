@@ -45,6 +45,12 @@ export const EDIT_NOTE_REQUEST = `${prefix}/EDIT_NOTE_REQUEST`
 export const EDIT_NOTE_SUCCESS = `${prefix}/EDIT_NOTE_SUCCESS`
 export const EDIT_NOTE_ERROR = `${prefix}/EDIT_NOTE_ERROR`
 
+export const DELETE_NOTE_REQUEST = `${prefix}/DELETE_NOTE_REQUEST`
+export const DELETE_NOTE_SUCCESS = `${prefix}/DELETE_NOTE_SUCCESS`
+export const DELETE_NOTE_ERROR = `${prefix}/DELETE_NOTE_ERROR`
+
+
+
 export default function reducer(state = new ReducerState(), action) {
     const {type, payload} = action 
 
@@ -67,17 +73,23 @@ export default function reducer(state = new ReducerState(), action) {
                     .setIn(['entities', payload.noteUid, 'contentLoading'], false)
                     .setIn(['entities', payload.noteUid, 'contentLoaded'], true)
                     .setIn(['entities', payload.noteUid, 'content'], payload.data.content ) 
+
         case EDIT_NOTE_SUCCESS:
-                
             return state
                     .setIn(['entities', payload.uid, 'content'], payload.content)
                     .setIn(['entities', payload.uid, 'title'], payload.title)
+
         case  ADD_NOTE_SUCCESS:
             return state
                     .setIn(['entities', payload.uid], new NoteRecord(payload))
                     .setIn(['entities', payload.uid, "contentLoaded"], true)
+
         case SIGN_OUT_SUCCESS:
             return new ReducerState()
+        
+        case DELETE_NOTE_SUCCESS:
+            return state.removeIn(['entities', payload.noteUid])
+
         default:
             return state
     }
@@ -124,9 +136,13 @@ export function loadNoteContent(noteUid, userUid) {
     }
 }
 
-const createNoteSoket = () => eventChannel(emmit => {
+export function deleteNote(noteUid, userUid) {
+    return {
+        type: DELETE_NOTE_REQUEST,
+        payload: {noteUid, userUid}
+    }
+}
 
-})
 
 export const addNoteSaga = function * ({payload}) {
     const {content, title, date, userUid} = payload
@@ -234,12 +250,32 @@ export const editNoteSaga = function * ({payload}) {
    
 }
 
+export const deleteNoteSaga = function * ({payload}){
+    const notesRef = firebase.database().ref(`users/${payload.userUid}/content/${payload.noteUid}`)
+    const noteIndexRef = firebase.database().ref(`users/${payload.userUid}/noteIndex/${payload.noteUid}`)
+    try{
+        yield call([notesRef, notesRef.remove])
+        yield call([noteIndexRef, noteIndexRef.remove])
+        yield put({
+            type: DELETE_NOTE_SUCCESS,
+            payload
+        })
+    } catch (error) {
+        yield put({
+            type: DELETE_NOTE_ERROR,
+            error
+        })
+    }
+}
+
+
 
 export const saga = function * () {
     yield all([
         takeEvery(ADD_NOTE_REQUEST, addNoteSaga),
         takeEvery(EFTCH_ALL_NOTE_REQUEST, fetchAllSaga),
         takeEvery(FETCH_NOTE_REQUEST, loadNoteContentSaga),
-        takeEvery(EDIT_NOTE_REQUEST, editNoteSaga)
+        takeEvery(EDIT_NOTE_REQUEST, editNoteSaga),
+        takeEvery(DELETE_NOTE_REQUEST, deleteNoteSaga)
     ])
 }

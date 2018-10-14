@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import { Paper, Typography, withStyles, ListItem, ListItemText, List } from '@material-ui/core'
+import { Paper, Typography, withStyles, ListItem, ListItemText, List, Button, ListItemSecondaryAction } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { noteListSelector, loadingSelector, loadAllNoteIndex, loadedSelector } from '../../../ducks/notes'
+import { noteListSelector, loadingSelector, loadAllNoteIndex, loadedSelector, deleteNote } from '../../../ducks/notes'
 import {userSelector} from '../../../ducks/auth'
 import {Link} from 'react-router-dom'
 
@@ -29,12 +29,24 @@ class NoteList extends React.Component {
         if(loading) return <h1>Loading</h1>
 
         return notes.map(note => (
-            <ListItem key={note.uid} to={`/diary/${note.uid}`} component={Link} button>
-                <ListItemText primary={note.title}/>
-            </ListItem>
+           
+                <ListItem key={note.uid} to={`/diary/${note.uid}`} component={Link} button>
+                    <ListItemText primary={note.title}/>
+                    <ListItemSecondaryAction>
+                        <Button onClick={this.handleDellNoteButton(note.uid)} color="primary">Удалить</Button>
+                    </ListItemSecondaryAction>
+                </ListItem>
+           
+           
         ))
         
     }
+    handleDellNoteButton = noteUid => () => {
+        const {user, deleteNote} = this.props
+        deleteNote(noteUid, user.uid)
+        
+    }
+
     
     render() {
         const { classes } = this.props
@@ -57,7 +69,8 @@ export default withStyles(styles)(connect(
         notes:noteListSelector(state),
         user: userSelector(state),
     }),{
-        loadAllNoteIndex
+        loadAllNoteIndex,
+        deleteNote
     },
     null,
     {pure: false}

@@ -12,14 +12,13 @@ import Index from './components/Layouts/IndexPage'
 import Diary from './components/Layouts/Diary'
 import About from './components/Layouts/About'
 import Auth from './components/User/Auth'
+import Personal from './components/User/Personal'
 
 import ProtectedRouter from './components/common/ProtectedRouter'
 
 import 'react-toastify/dist/ReactToastify.css';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-
-//node_modules\react-draft-wysiwyg\dist\react-draft-wysiwyg.js
 
 
 class App extends Component {
@@ -28,11 +27,11 @@ class App extends Component {
             <React.Fragment>
                 <CssBaseline/>
                 <Header/>
-                
                         <Switch>
                             <Route path="/auth" component={Auth} />
                             <ProtectedRouter path="/diary" component = {Diary}/>
                             <Route path="/about" component = {About}/>
+                            <Route path="/personal" component = {Personal}/>
                             <Route path="/" component = {Index} />
                         </Switch>
                 <ToastContainer autoClose={2500} />
